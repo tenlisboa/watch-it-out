@@ -1,0 +1,20 @@
+{
+  "name": "practice-proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx mocha --parallel --exit __tests__/*.js",
+    "test:dev" : "npx mocha -w --parallel --exit __tests__/*.js",
+    "test:cov": "npx nyc --reporter=html,text npm test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
+    "sinon": "^15.1.0"
+  }
+}
