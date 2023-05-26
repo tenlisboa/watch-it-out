@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "npx mocha --parallel --exit __tests__/*.js",
-    "test:dev" : "npx mocha -w --parallel --exit __tests__/*.js",
-    "test:cov": "npx nyc --reporter=html,text npm test"
+    "test:dev": "npx mocha -w --parallel --exit __tests__/*.js",
+    "test:cov": "npx nyc npm test"
   },
   "keywords": [],
   "author": "",
