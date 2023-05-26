@@ -91,4 +91,23 @@ describe("WatchIt", () => {
         expect(logSpy.calledWithMatch(partialExpectedLoggin)).to.be.true;
         expect(logSpy.calledWith("do something")).to.be.true;
     })
+
+    it('should log with a custom logger', () => {
+        let target = {
+            a: 123
+        };
+
+        const customLogger =  {
+            log: (data) => console.log('custom logger: ', data)
+        }
+        const customLogSpy = sinon.spy(customLogger, 'log');
+
+        let proxy = WatchItOut.init(target, { loggerFn: customLogger.log});
+        
+        proxy.a;
+
+        const partialExpectedLoggin = {kind: "get", name: "a"};
+
+        expect(customLogSpy.calledWithMatch(partialExpectedLoggin)).to.be.true;
+    })
 })
