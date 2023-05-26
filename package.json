@@ -1,5 +1,5 @@
 {
-  "name": "watch-it",
+  "name": "watch-it-out",
   "version": "0.0.0-development",
   "description": "A way to watch a file or directory for changes and run a command when they occur.",
   "main": "src/index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tenlisboa/watch-it.git"
+    "url": "https://github.com/tenlisboa/watch-it-out.git"
   },
   "scripts": {
     "test": "npx mocha --parallel --exit __tests__/*.js",

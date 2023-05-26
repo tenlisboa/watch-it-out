@@ -1,12 +1,12 @@
 const BaseWatcher = require("./baseWatcher");
 
-class WatchIt extends BaseWatcher {
+class WatchItOut extends BaseWatcher {
   constructor(loggerFn) {
     super(loggerFn);
   }
 
   static init(target, { loggerFn = console.log } = {}) {
-    const instance = new WatchIt(loggerFn);
+    const instance = new WatchItOut(loggerFn);
 
     return new Proxy(target, {
       get: (target, property, receiver) => {
@@ -54,4 +54,4 @@ class WatchIt extends BaseWatcher {
   }
 }
 
-module.exports = WatchIt;
+module.exports = WatchItOut;

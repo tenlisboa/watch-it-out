@@ -1,7 +1,7 @@
 const { describe, before, afterEach } = require('mocha');
 const { expect } = require('chai');
 const sinon = require('sinon');
-const WatchIt = require('../src');
+const WatchItOut = require('../src');
 
 describe("WatchIt", () => {
     let logSpy;
@@ -18,7 +18,7 @@ describe("WatchIt", () => {
             a: 123
         };
 
-        let proxy = WatchIt.init(target, { loggerFn: console.log});
+        let proxy = WatchItOut.init(target, { loggerFn: console.log});
         
         proxy.a;
 
@@ -32,7 +32,7 @@ describe("WatchIt", () => {
             a: 123
         };
 
-        let proxy = WatchIt.init(target, { loggerFn: console.log});
+        let proxy = WatchItOut.init(target, { loggerFn: console.log});
         
         proxy.a = 456;
 
@@ -49,7 +49,7 @@ describe("WatchIt", () => {
             }
         };
 
-        let proxy = WatchIt.init(target, { loggerFn: console.log});
+        let proxy = WatchItOut.init(target, { loggerFn: console.log});
         
         proxy.do('something');
 
@@ -67,7 +67,7 @@ describe("WatchIt", () => {
         }
         let target = new T();
 
-        let proxy = WatchIt.init(target, { loggerFn: console.log});
+        let proxy = WatchItOut.init(target, { loggerFn: console.log});
         
         proxy.doIt('something');
 
@@ -82,7 +82,7 @@ describe("WatchIt", () => {
             console.log('do something');
         }
 
-        let proxy = WatchIt.init(t);
+        let proxy = WatchItOut.init(t);
         
         proxy('something');
 
