@@ -22,7 +22,9 @@ describe("WatchIt", () => {
         
         proxy.a;
 
-        expect(logSpy.calledWith("Getting property a")).to.be.true;
+        const partialExpectedLoggin = {kind: "get", name: "a"};
+
+        expect(logSpy.calledWithMatch(partialExpectedLoggin)).to.be.true;
     })
 
     it('should log when a property is set', () => {
@@ -34,7 +36,9 @@ describe("WatchIt", () => {
         
         proxy.a = 456;
 
-        expect(logSpy.calledWith("Setting property a to 456")).to.be.true;
+        const partialExpectedLoggin = {kind: "set", name: "a", from: 123, to: 456};
+
+        expect(logSpy.calledWithMatch(partialExpectedLoggin)).to.be.true;
     })
 
     it('should log when calling a function', () => {
@@ -49,7 +53,9 @@ describe("WatchIt", () => {
         
         proxy.do('something');
 
-        expect(logSpy.calledWith("Calling do with something")).to.be.true;
+        const partialExpectedLoggin = {kind: "function", name: "do", args: ["something"]};
+
+        expect(logSpy.calledWithMatch(partialExpectedLoggin)).to.be.true;
         expect(logSpy.calledWith("do something")).to.be.true;
     })
 
@@ -65,7 +71,24 @@ describe("WatchIt", () => {
         
         proxy.doIt('something');
 
-        expect(logSpy.calledWith("Calling doIt with something")).to.be.true;
+        const partialExpectedLoggin = {kind: "function", name: "doIt", args: ["something"]};
+
+        expect(logSpy.calledWithMatch(partialExpectedLoggin)).to.be.true;
+        expect(logSpy.calledWith("do something")).to.be.true;
+    })
+
+    it('should log when calling a function directly', () => {
+        function t() {
+            console.log('do something');
+        }
+
+        let proxy = WatchIt.init(t);
+        
+        proxy('something');
+
+        const partialExpectedLoggin = {kind: "function", name: "t", args: ["something"]};
+
+        expect(logSpy.calledWithMatch(partialExpectedLoggin)).to.be.true;
         expect(logSpy.calledWith("do something")).to.be.true;
     })
 })
