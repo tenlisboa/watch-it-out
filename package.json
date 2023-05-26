@@ -1,8 +1,13 @@
 {
-  "name": "practice-proxy",
+  "name": "watch-it",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A way to watch a file or directory for changes and run a command when they occur.",
+  "main": "src/index.js",
+  
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tenlisboa/watch-it.git"
+  },
   "scripts": {
     "test": "npx mocha --parallel --exit __tests__/*.js",
     "test:dev": "npx mocha -w --parallel --exit __tests__/*.js",
