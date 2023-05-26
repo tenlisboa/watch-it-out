@@ -1,9 +1,14 @@
 {
   "name": "watch-it",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "description": "A way to watch a file or directory for changes and run a command when they occur.",
   "main": "src/index.js",
-  
+  "release": {
+    "branches": ["main"]
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/tenlisboa/watch-it.git"
@@ -11,7 +16,8 @@
   "scripts": {
     "test": "npx mocha --parallel --exit __tests__/*.js",
     "test:dev": "npx mocha -w --parallel --exit __tests__/*.js",
-    "test:cov": "npx nyc npm test"
+    "test:cov": "npx nyc npm test",
+    "semantic-release": "semantic-release"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +26,7 @@
     "chai": "^4.3.7",
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
+    "semantic-release": "^21.0.2",
     "sinon": "^15.1.0"
   }
 }
