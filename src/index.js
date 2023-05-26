@@ -1,31 +1,29 @@
-const Util = require("./util");
+const BaseWatcher = require("./baseWatcher");
 
-class WatchIt {
-  static #loggerFn;
+class WatchIt extends BaseWatcher {
+  constructor(loggerFn) {
+    super(loggerFn);
+  }
 
   static init(target, { loggerFn = console.log } = {}) {
-    this.#loggerFn = loggerFn;
+    const instance = new WatchIt(loggerFn);
 
     return new Proxy(target, {
       get: (target, property, receiver) => {
 
         if (typeof target[property] === 'function') {
           return (...args) => {
-            this.#loggerFn({
-              kind: "function",
+            instance.logCall({
               name: property,
               args,
-              when: Util.now()
             });
 
             return target[property].apply(receiver, args);
           };
         }
 
-        this.#loggerFn({
-          kind: "get",
+        instance.logGet({
           name: property,
-          when: Util.now()
         });
 
         return target[property];
@@ -33,12 +31,10 @@ class WatchIt {
 
       set: (target, property, newValue) => {
 
-        this.#loggerFn({
-          kind: "set",
+        instance.logSet({
           name: property,
           from: target[property],
           to: newValue,
-          when: Util.now()
         });
 
         target[property] = newValue;
@@ -47,11 +43,9 @@ class WatchIt {
       },
 
       apply: (target, thisArg, argumentsList) => {
-        this.#loggerFn({
-          kind: "function",
+        instance.logCall({
           name: target.name,
           args: argumentsList,
-          when: Util.now()
         });
 
         return target.apply(thisArg, argumentsList);
