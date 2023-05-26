@@ -4,7 +4,9 @@
   "description": "A way to watch a file or directory for changes and run a command when they occur.",
   "main": "src/index.js",
   "release": {
-    "branches": ["main"]
+    "branches": [
+      { "name": "main", "channel": "latest" }
+    ]
   },
   "publishConfig": {
     "access": "public"
