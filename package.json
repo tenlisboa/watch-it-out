@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:tenlisboa/watch-it.git"
+    "url": "https://github.com/tenlisboa/watch-it.git"
   },
   "scripts": {
     "test": "npx mocha --parallel --exit __tests__/*.js",
