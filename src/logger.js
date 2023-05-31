@@ -1,6 +1,6 @@
 const Util = require("./util");
 
-class BaseWatcher {
+class Logger {
   #logger;
 
   constructor(logger) {
@@ -45,4 +45,4 @@ class BaseWatcher {
   }
 }
 
-module.exports = BaseWatcher;
+module.exports = Logger;

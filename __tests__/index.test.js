@@ -18,7 +18,9 @@ describe("WatchIt", () => {
             a: 123
         };
 
-        let proxy = WatchItOut.init(target, { loggerFn: console.log});
+        WatchItOut.setup({loggerFn: console.log});
+
+        let proxy = WatchItOut.init(target);
         
         proxy.a;
 
@@ -32,7 +34,9 @@ describe("WatchIt", () => {
             a: 123
         };
 
-        let proxy = WatchItOut.init(target, { loggerFn: console.log});
+        WatchItOut.setup({loggerFn: console.log});
+
+        let proxy = WatchItOut.init(target);
         
         proxy.a = 456;
 
@@ -49,7 +53,9 @@ describe("WatchIt", () => {
             }
         };
 
-        let proxy = WatchItOut.init(target, { loggerFn: console.log});
+        WatchItOut.setup({loggerFn: console.log});
+
+        let proxy = WatchItOut.init(target);
         
         proxy.do('something');
 
@@ -67,7 +73,9 @@ describe("WatchIt", () => {
         }
         let target = new T();
 
-        let proxy = WatchItOut.init(target, { loggerFn: console.log});
+        WatchItOut.setup({loggerFn: console.log});
+
+        let proxy = WatchItOut.init(target);
         
         proxy.doIt('something');
 
@@ -81,6 +89,8 @@ describe("WatchIt", () => {
         function t() {
             console.log('do something');
         }
+
+        WatchItOut.setup({loggerFn: console.log});
 
         let proxy = WatchItOut.init(t);
         
@@ -102,12 +112,47 @@ describe("WatchIt", () => {
         }
         const customLogSpy = sinon.spy(customLogger, 'log');
 
-        let proxy = WatchItOut.init(target, { loggerFn: customLogger.log});
+        WatchItOut.setup({loggerFn: customLogSpy});
+
+        let proxy = WatchItOut.init(target);
         
         proxy.a;
 
         const partialExpectedLoggin = {kind: "get", name: "a"};
 
         expect(customLogSpy.calledWithMatch(partialExpectedLoggin)).to.be.true;
+    })
+
+    it('should be able to setup the config through setup static function', () => {
+        const watcherSpy = sinon.spy(WatchItOut, 'setup');
+        
+        WatchItOut.setup({loggerFn: console.log});
+
+        expect(watcherSpy.calledWith({loggerFn: console.log})).to.be.true;
+    })
+
+    it('should be able to setup only one event to watch and ignore others', () => {
+        const target = {
+            a: 123,
+            foo() {
+                console.log('Foo Calling');
+            }
+        };
+        WatchItOut.setup({events: ['get']});
+
+        const proxy = WatchItOut.init(target);
+        proxy.a;
+        proxy.a = 456;
+        proxy.foo();
+
+        const partialExpectedLoggin = {kind: "get", name: "a"};
+        const partialExpectedLogginTwo = {kind: "get", name: "foo"};
+        const partialUnexpectedLogginSet = {kind: "set", name: "a", from: 123, to: 456};
+        const partialUnexpectedLogginFunc = {kind: "function", name: "foo", args: []};
+
+        expect(logSpy.calledWithMatch(partialExpectedLoggin)).to.be.true;
+        expect(logSpy.calledWithMatch(partialExpectedLogginTwo)).to.not.be.true;
+        expect(logSpy.calledWithMatch(partialUnexpectedLogginSet)).to.not.be.true;
+        expect(logSpy.calledWithMatch(partialUnexpectedLogginFunc)).to.not.be.true;
     })
 })
