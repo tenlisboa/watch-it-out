@@ -4,13 +4,12 @@ const EventHandlers = require("./eventHandlers");
 const kConfig = Symbol("config");
 
 class WatchItOut {
-  static [kConfig] = defaultConfigs;
-
   static setup(configs = {}) {
-    this[kConfig] = { ...this[kConfig], ...configs};
+    this[kConfig] = {...defaultConfigs, ...configs};
   }
 
   static init(target) {
+    console.log({kConfig: this[kConfig]})
     const proxyHandlers = {};
     const eventHandlers = new EventHandlers(this[kConfig]);
     

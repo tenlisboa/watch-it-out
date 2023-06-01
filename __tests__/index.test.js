@@ -2,15 +2,33 @@ const { describe, before, afterEach } = require('mocha');
 const { expect } = require('chai');
 const sinon = require('sinon');
 const WatchItOut = require('../src');
+const defaultConfigs = require('../src/defaultConfigs');
 
 describe("WatchIt", () => {
-    let logSpy;
-    before(() => {
-        logSpy = sinon.spy(console, 'log');
-    })
+    const logSpy = sinon.createSandbox()
+        .spy(console, 'log');
+    const defaultSpy = sinon.createSandbox()
+        .spy(defaultConfigs, 'loggerFn');
 
     afterEach(() => {
         logSpy.resetHistory();
+        defaultSpy.resetHistory();
+    })
+
+    it('should log when the config is empty', () => {
+        let target = {
+            emptyConfig: 123
+        };
+
+        WatchItOut.setup();
+
+        let proxy = WatchItOut.init(target);
+        
+        proxy.emptyConfig;
+
+        const partialExpectedLoggin = {kind: "get", name: "emptyConfig"};
+
+        expect(defaultSpy.calledWithMatch(partialExpectedLoggin)).to.be.true;
     })
 
     it('should log when a property is get', () => {
@@ -133,26 +151,27 @@ describe("WatchIt", () => {
 
     it('should be able to setup only one event to watch and ignore others', () => {
         const target = {
-            a: 123,
+            onlyGet: 123,
             foo() {
                 console.log('Foo Calling');
             }
         };
+
         WatchItOut.setup({events: ['get']});
 
         const proxy = WatchItOut.init(target);
-        proxy.a;
-        proxy.a = 456;
+        proxy.onlyGet;
+        proxy.onlyGet = 456;
         proxy.foo();
 
-        const partialExpectedLoggin = {kind: "get", name: "a"};
+        const partialExpectedLoggin = {kind: 'get', name: 'onlyGet'};
         const partialExpectedLogginTwo = {kind: "get", name: "foo"};
-        const partialUnexpectedLogginSet = {kind: "set", name: "a", from: 123, to: 456};
+        const partialUnexpectedLogginSet = {kind: "set", name: "onlyGet", from: 123, to: 456};
         const partialUnexpectedLogginFunc = {kind: "function", name: "foo", args: []};
 
-        expect(logSpy.calledWithMatch(partialExpectedLoggin)).to.be.true;
-        expect(logSpy.calledWithMatch(partialExpectedLogginTwo)).to.not.be.true;
-        expect(logSpy.calledWithMatch(partialUnexpectedLogginSet)).to.not.be.true;
-        expect(logSpy.calledWithMatch(partialUnexpectedLogginFunc)).to.not.be.true;
+        expect(defaultSpy.calledWithMatch(partialExpectedLoggin)).to.be.true;
+        expect(defaultSpy.calledWithMatch(partialExpectedLogginTwo)).to.not.be.true;
+        expect(defaultSpy.calledWithMatch(partialUnexpectedLogginSet)).to.not.be.true;
+        expect(defaultSpy.calledWithMatch(partialUnexpectedLogginFunc)).to.not.be.true;
     })
 })
