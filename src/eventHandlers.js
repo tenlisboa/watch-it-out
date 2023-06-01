@@ -4,20 +4,41 @@ class EventHandlers {
   #logger;
   #config;
 
+  static keyMapper = {
+    get: 'get',
+    set: 'set',
+    call: 'apply',
+  };
+
   constructor(config) {
     this.#logger = new Logger(config.loggerFn);
     this.#config = config;
   }
 
+  getPrintable() {
+    const printableKeyNames = this.#config.printable;
+    const context = new Map(Object.entries(this.#config.context));
+    const contextPrintable = {};
+
+    for (const [key, value] of context.entries()) {
+      if (!printableKeyNames.includes(key)) continue;
+
+      contextPrintable[key] = value;
+    }
+    
+    return contextPrintable;
+  }
+
   get(target, property, receiver) {
     if (typeof target[property] === 'function') {
 
-      if (!this.#config.events.includes('apply')) return target[property];
+      if (!this.#config.events.includes('call')) return target[property];
 
       return (...args) => {
         this.#logger.logCall({
           name: property,
           args,
+          ...this.getPrintable(),
         });
 
         return target[property].apply(receiver, args);
@@ -26,6 +47,7 @@ class EventHandlers {
 
     this.#logger.logGet({
       name: property,
+      ...this.getPrintable(),
     });
 
     return target[property];
@@ -37,6 +59,7 @@ class EventHandlers {
       name: property,
       from: target[property],
       to: newValue,
+      ...this.getPrintable(),
     });
 
     target[property] = newValue;
@@ -48,6 +71,7 @@ class EventHandlers {
     this.#logger.logCall({
       name: target.name,
       args: argumentsList,
+      ...this.getPrintable(),
     });
 
     return target.apply(thisArg, argumentsList);

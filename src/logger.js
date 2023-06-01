@@ -20,27 +20,30 @@ class Logger {
     });
   }
 
-  logGet({ name }) {
+  logGet({ name, ...printable }) {
     this.#log({
       kind: "get",
-      name
+      name,
+      ...printable
     });
   }
 
-  logCall({ name, args }) {
+  logCall({ name, args,...printable }) {
     this.#log({
       kind: "function",
       name,
-      args
+      args,
+      ...printable
     });
   }
 
-  logSet({ name, from, to }) {
+  logSet({ name, from, to, ...printable }) {
     this.#log({
       kind: "set",
       name,
       from,
-      to
+      to,
+      ...printable
     });
   }
 }
