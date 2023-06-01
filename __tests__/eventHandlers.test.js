@@ -1,16 +1,17 @@
-const { describe, before, afterEach } = require('mocha');
+const { describe, afterEach, after } = require('mocha');
 const { expect } = require('chai');
 const sinon = require('sinon');
 const EventHandlers = require('../src/eventHandlers');
 
 describe("EventHandlers", () => {
-    let logSpy;
-    before(() => {
-      logSpy = sinon.spy(console, 'log');
-    })
+    let logSpy = sinon.createSandbox().spy(console, 'log');
 
     afterEach(() => {
       logSpy.resetHistory();
+    })
+
+    after(() => {
+      logSpy.restore();
     })
 
   it('should return the printable context', () => {
