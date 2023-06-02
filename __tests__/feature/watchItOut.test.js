@@ -111,4 +111,233 @@ describe('Main purpose of WatchItOut', () => {
       with: [],
     })).to.be.true;
   });
+
+  // should log the get event with the printable context when a property is accessed
+  it ('should log the get event with the printable context when a property is accessed', () => {
+    WatchItOut.config
+      .setLogger(customLogger)
+      .setContext({user: {name: 'John Doe'}})
+      .setPrintable(['user'])
+      .setEvents(['get']);
+
+    const customClass = WatchItOut.new(new CustomClass());
+
+    customClass.a;
+
+    expect(logSpy.calledOnce).to.be.true;
+    expect(logSpy.calledWithMatch({
+      user: {name: 'John Doe'},
+    })).to.be.true;
+  });
+
+  it ('should log the get event with the printable context when printable is nested', () => {
+    WatchItOut.config
+      .setLogger(customLogger)
+      .setContext({user: {name: 'John Doe'}})
+      .setPrintable(['user.name'])
+      .setEvents(['get']);
+
+    const customClass = WatchItOut.new(new CustomClass());
+
+    customClass.a;
+
+    expect(logSpy.calledOnce).to.be.true;
+    expect(logSpy.calledWithMatch({
+      'user.name': 'John Doe',
+    })).to.be.true;
+  });
+
+  it ('should not log the get event with context not set in printable when a property is accessed', () => {
+    WatchItOut.config
+      .setLogger(customLogger)
+      .setContext({user: {name: 'John Doe'}})
+      .setPrintable([])
+      .setEvents(['get']);
+
+    const customClass = WatchItOut.new(new CustomClass());
+
+    customClass.a;
+
+    expect(logSpy.calledOnce).to.be.true;
+    expect(logSpy.calledWithMatch({
+      'user.name': 'John Doe',
+    })).to.be.not.true;
+    expect(logSpy.calledWithMatch({
+      'user': {name: 'John Doe'},
+    })).to.be.not.true;
+  });
+
+  // SET
+
+  it ('should log the set event with the printable context when a property is accessed', () => {
+    WatchItOut.config
+      .setLogger(customLogger)
+      .setContext({user: {name: 'John Doe'}})
+      .setPrintable(['user'])
+      .setEvents(['set']);
+
+    const customClass = WatchItOut.new(new CustomClass());
+
+    customClass.a = 456;
+
+    expect(logSpy.calledOnce).to.be.true;
+    expect(logSpy.calledWithMatch({
+      user: {name: 'John Doe'},
+    })).to.be.true;
+  });
+
+  it ('should log the set event with the printable context when printable is nested', () => {
+    WatchItOut.config
+      .setLogger(customLogger)
+      .setContext({user: {name: 'John Doe'}})
+      .setPrintable(['user.name'])
+      .setEvents(['set']);
+
+    const customClass = WatchItOut.new(new CustomClass());
+
+    customClass.a = 456;
+
+    expect(logSpy.calledOnce).to.be.true;
+    expect(logSpy.calledWithMatch({
+      'user.name': 'John Doe',
+    })).to.be.true;
+  });
+
+  it ('should not log the set event with context not set in printable when a property is accessed', () => {
+    WatchItOut.config
+      .setLogger(customLogger)
+      .setContext({user: {name: 'John Doe'}})
+      .setPrintable([])
+      .setEvents(['set']);
+
+    const customClass = WatchItOut.new(new CustomClass());
+
+    customClass.a = 456;
+
+    expect(logSpy.calledOnce).to.be.true;
+    expect(logSpy.calledWithMatch({
+      'user.name': 'John Doe',
+    })).to.be.not.true;
+    expect(logSpy.calledWithMatch({
+      'user': {name: 'John Doe'},
+    })).to.be.not.true;
+  });
+
+  // CALL
+
+  it ('should log the call event with the printable context when a property is accessed', () => {
+    WatchItOut.config
+      .setLogger(customLogger)
+      .setContext({user: {name: 'John Doe'}})
+      .setPrintable(['user'])
+      .setEvents(['call']);
+
+    const customClass = WatchItOut.new(new CustomClass());
+
+    customClass.foo();
+
+    expect(logSpy.calledOnce).to.be.true;
+    expect(logSpy.calledWithMatch({
+      user: {name: 'John Doe'},
+    })).to.be.true;
+  });
+
+  it ('should log the call event with the printable context when printable is nested', () => {
+    WatchItOut.config
+      .setLogger(customLogger)
+      .setContext({user: {name: 'John Doe'}})
+      .setPrintable(['user.name'])
+      .setEvents(['call']);
+
+    const customClass = WatchItOut.new(new CustomClass());
+
+    customClass.foo();
+
+    expect(logSpy.calledOnce).to.be.true;
+    expect(logSpy.calledWithMatch({
+      'user.name': 'John Doe',
+    })).to.be.true;
+  });
+
+  it ('should not log the call event with context not set in printable when a property is accessed', () => {
+    WatchItOut.config
+      .setLogger(customLogger)
+      .setContext({user: {name: 'John Doe'}})
+      .setPrintable([])
+      .setEvents(['call']);
+
+    const customClass = WatchItOut.new(new CustomClass());
+
+    customClass.foo();
+
+    expect(logSpy.calledOnce).to.be.true;
+    expect(logSpy.calledWithMatch({
+      'user.name': 'John Doe',
+    })).to.be.not.true;
+    expect(logSpy.calledWithMatch({
+      'user': {name: 'John Doe'},
+    })).to.be.not.true;
+  });
+
+  // APPLY
+
+  it ('should log the apply event with the printable context when a property is accessed', () => {
+    WatchItOut.config
+      .setLogger(customLogger)
+      .setContext({user: {name: 'John Doe'}})
+      .setPrintable(['user'])
+      .setEvents(['apply']);
+
+    function test() {}
+
+    const customFunc = WatchItOut.new(test);
+
+    customFunc();
+
+    expect(logSpy.calledOnce).to.be.true;
+    expect(logSpy.calledWithMatch({
+      user: {name: 'John Doe'},
+    })).to.be.true;
+  });
+
+  it ('should log the apply event with the printable context when printable is nested', () => {
+    WatchItOut.config
+      .setLogger(customLogger)
+      .setContext({user: {name: 'John Doe'}})
+      .setPrintable(['user.name'])
+      .setEvents(['apply']);
+
+    function test() {}
+
+    const customFunc = WatchItOut.new(test);
+
+    customFunc();
+
+    expect(logSpy.calledOnce).to.be.true;
+    expect(logSpy.calledWithMatch({
+      'user.name': 'John Doe',
+    })).to.be.true;
+  });
+
+  it ('should not log the apply event with context not set in printable when a property is accessed', () => {
+    WatchItOut.config
+      .setLogger(customLogger)
+      .setContext({user: {name: 'John Doe'}})
+      .setPrintable([])
+      .setEvents(['apply']);
+
+    function test() {}
+
+    const customFunc = WatchItOut.new(test);
+
+    customFunc();
+
+    expect(logSpy.calledOnce).to.be.true;
+    expect(logSpy.calledWithMatch({
+      'user.name': 'John Doe',
+    })).to.be.not.true;
+    expect(logSpy.calledWithMatch({
+      'user': {name: 'John Doe'},
+    })).to.be.not.true;
+  });
 });

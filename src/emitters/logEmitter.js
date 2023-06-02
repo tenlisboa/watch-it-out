@@ -2,9 +2,11 @@
 
 const EventEmitter = require('events');
 const MissingConstructorParameter = require('../exceptions/missingConstructorParameter');
+const PrintableBuilder = require('../builders/printableBuilder');
 
 const kEmitter = Symbol('emitter');
 const kConfig = Symbol('config');
+const kPrintableBuilder = Symbol('printableBuilder');
 
 class LogEmitter {
   loggerFn;
@@ -14,6 +16,7 @@ class LogEmitter {
 
     this[kEmitter] = new EventEmitter();
     this[kConfig] = config;
+    this[kPrintableBuilder] = PrintableBuilder.workflow(config);
 
     this.loggerFn = this[kConfig].getLogger().log.bind(this[kConfig].getLogger());
 
@@ -30,35 +33,47 @@ class LogEmitter {
 
   #setupLoggingListeners() {
     this.#on('get', ({target, property, receiver}) => {
-      this.loggerFn({
-        action: "accessing property",
-        property,
-        on: target,
-      });
+      const data = this[kPrintableBuilder]
+        .setData({
+          action: "accessing property",
+          property,
+          on: target,
+        });
+
+      this.loggerFn(data.build());
     });
     this.#on('set', ({target, property, newValue}) => {
-      this.loggerFn({
-        action: "changing property value",
-        property,
-        on: target,
-        from: target[property],
-        to: newValue,
-      });
+      const data = this[kPrintableBuilder]
+        .setData({
+          action: "changing property value",
+          property,
+          on: target,
+          from: target[property],
+          to: newValue,
+        });
+
+      this.loggerFn(data.build());
     });
     this.#on('call', ({target, property, argumentsList}) => {
-      this.loggerFn({
-        action: "calling a method",
-        method: property,
-        on: target,
-        with: argumentsList,
-      });
+      const data = this[kPrintableBuilder]
+        .setData({
+          action: "calling a method",
+          method: property,
+          on: target,
+          with: argumentsList,
+        });
+        
+      this.loggerFn(data.build());
     });
     this.#on('apply', ({target, thisArg, argumentsList}) => {
-      this.loggerFn({
-        action: "calling a function",
-        name: target.name,
-        with: argumentsList,
-      });
+      const data = this[kPrintableBuilder]
+        .setData({
+          action: "calling a function",
+          name: target.name,
+          with: argumentsList,
+        });
+        
+      this.loggerFn(data.build());
     });
   }
 }

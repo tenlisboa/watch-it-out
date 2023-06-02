@@ -14,8 +14,9 @@ describe("LogEmitter", () => {
 
   beforeEach(() => {
     config = ConfigBuilder.config({
+      ...DefaultConfig,
       // @ts-ignore
-      logger: customLogger
+      logger: customLogger,
     });
   });
 
