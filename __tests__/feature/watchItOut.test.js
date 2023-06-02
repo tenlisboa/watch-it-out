@@ -1,7 +1,7 @@
 const {expect} = require('chai');
 const {describe, it, afterEach, beforeEach} = require('mocha');
 const sinon = require('sinon');
-const WatchItOut = require('../../src/watchItOut');
+const WatchItOut = require('../../src');
 
 describe('Main purpose of WatchItOut', () => {
   class CustomClass {

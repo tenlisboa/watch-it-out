@@ -1,6 +1,6 @@
 const { describe } = require('mocha');
 const { expect } = require('chai');
-const ProxyHandlerBuilder = require('../../../src/proxyHandler/proxyHandlerBuilder');
+const ProxyHandlerBuilder = require('../../../src/builders/proxyHandlerBuilder');
 
 describe("ProxyHandlerBuilder class test", () => {
     it('should be possible to create a ProxyHandlerBuilder object', () => {

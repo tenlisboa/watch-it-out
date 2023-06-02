@@ -1,7 +1,7 @@
 const { describe, afterEach, beforeEach } = require('mocha');
 const { expect } = require('chai');
-const WatchItOut = require('../../src/watchItOut');
-const defautlConfig = require('../../src/watchItOut/config/.default.config');
+const WatchItOut = require('../../src');
+const defautlConfig = require('../../src/config/.default.config');
 
 describe("WatchItOut class", () => {
   const customLogger = {

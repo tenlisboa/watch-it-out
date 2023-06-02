@@ -1,24 +1,24 @@
 const { describe } = require('mocha');
 const { expect } = require('chai');
-const Config = require('../../src/watchItOut/config');
-const defautlConfig = require('../../src/watchItOut/config/.default.config');
+const ConfigBuilder = require('../../../src/builders/configBuilder');
+const defautlConfig = require('../../../src/config/.default.config');
 
-describe("Config class test", () => {
+describe("ConfigBuilder class test", () => {
     it('should be possible to create a config object', () => {
-        const config = Config.config();
+        const config = ConfigBuilder.config();
 
         expect(config).to.be.an('object');
-        expect(config).to.have.instanceOf(Config);
+        expect(config).to.have.instanceOf(ConfigBuilder);
     });
 
     it('should load the default config', () => {
-        const configContent = Config.config().build();
+        const configContent = ConfigBuilder.config().build();
 
         expect(configContent).to.be.deep.equal(defautlConfig);
     });
 
     it('should be possible to set the events', () => {
-        const configContent = Config.config()
+        const configContent = ConfigBuilder.config()
             .setEvents(['get'])
             .build();
 
@@ -26,14 +26,14 @@ describe("Config class test", () => {
     });
 
     it('should be possible to get the events', () => {
-        const config = Config.config()
+        const config = ConfigBuilder.config()
             .setEvents(['get']);
 
         expect(config.getEvents()).to.be.deep.equal(['get']);
     });
 
     it('should be possible to set the context', () => {
-        const configContent = Config.config()
+        const configContent = ConfigBuilder.config()
             .setContext({someKey: 'someValue'})
             .build();
 
@@ -41,7 +41,7 @@ describe("Config class test", () => {
     });
 
     it('should be possible to get the context', () => {
-        const config = Config.config()
+        const config = ConfigBuilder.config()
             .setContext({someKey: 'someValue'});
 
         expect(config.getContext()).to.be.deep.equal({someKey: 'someValue'});
@@ -52,7 +52,7 @@ describe("Config class test", () => {
             log() {}
         }
 
-        const configContent = Config.config()
+        const configContent = ConfigBuilder.config()
             .setLogger(customLogger)
             .build();
 
@@ -65,14 +65,14 @@ describe("Config class test", () => {
             log() {}
         }
 
-        const config = Config.config()
+        const config = ConfigBuilder.config()
             .setLogger(customLogger);
 
         expect(config.getLogger()).to.be.deep.equal(customLogger);
     });
 
     it('should be possible to set the printable', () => {
-        const configContent = Config.config()
+        const configContent = ConfigBuilder.config()
             .setPrintable(['someKey'])
             .build();
 
@@ -80,7 +80,7 @@ describe("Config class test", () => {
     });
 
     it('should be possible to get the printable', () => {
-        const config = Config.config()
+        const config = ConfigBuilder.config()
             .setPrintable(['someKey']);
 
         expect(config.getPrintable()).to.be.deep.equal(['someKey']);

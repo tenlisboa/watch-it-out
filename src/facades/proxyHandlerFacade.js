@@ -1,8 +1,8 @@
 const { join } = require("path");
 
-const { HANDLER_KEY_MAPPER } = require("./config/consts");
+const { HANDLER_KEY_MAPPER } = require("../handlers/config/consts");
 const MissingConstructorParameter = require("../exceptions/missingConstructorParameter");
-const ProxyHandlerBuilder = require("./proxyHandlerBuilder");
+const ProxyHandlerBuilder = require("../builders/proxyHandlerBuilder");
 
 class ProxyHandlerFacade {
   #proxyHandlerBuilder;
@@ -33,7 +33,7 @@ class ProxyHandlerFacade {
   }
 
   #getHandlerByEvent(event) {
-    const handlersPath = join(__dirname, 'handlers');
+    const handlersPath = join(__dirname, '..', 'handlers');
     const handlerMap = require(handlersPath);
 
     const handler = handlerMap[event].setup(

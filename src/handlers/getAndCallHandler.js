@@ -1,4 +1,4 @@
-const MissingConstructorParameter = require("../../exceptions/missingConstructorParameter");
+const MissingConstructorParameter = require("../exceptions/missingConstructorParameter");
 
 class GetAndCallHandler {
   #config;

@@ -1,7 +1,7 @@
 const { describe } = require('mocha');
 const { expect } = require('chai');
-const ConfigBuilder = require('../../../../src/builders/configBuilder');
-const ApplyHandler = require('../../../../src/handlers/applyHandler');
+const ConfigBuilder = require('../../../src/builders/configBuilder');
+const ApplyHandler = require('../../../src/handlers/applyHandler');
 
 describe("ApplyHandler class test", () => {
   const config =  ConfigBuilder.config();

@@ -1,10 +1,10 @@
 const { describe } = require('mocha');
 const { expect } = require('chai');
-const Config = require('../../../../src/watchItOut/config');
-const SetHandler = require('../../../../src/proxyHandler/handlers/setHandler');
+const ConfigBuilder = require('../../../../src/builders/configBuilder');
+const SetHandler = require('../../../../src/handlers/setHandler');
 
 describe("SetHandler class test", () => {
-  const config =  Config.config();
+  const config =  ConfigBuilder.config();
   const logEmitter = {
     emit(...args) {}
   };

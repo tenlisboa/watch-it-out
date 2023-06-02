@@ -3,8 +3,8 @@ const { describe, beforeEach, before } = require("mocha");
 const sinon = require("sinon");
 const MissingConstructorParameter = require("../../../src/exceptions/missingConstructorParameter");
 const LogEmitter = require("../../../src/emitters/logEmitter");
-const Config = require("../../../src/watchItOut/config");
-const DefaultConfig = require("../../../src/watchItOut/config/.default.config");
+const ConfigBuilder = require("../../../src/builders/configBuilder");
+const DefaultConfig = require("../../../src/config/.default.config");
 
 describe("LogEmitter", () => {
   let config;
@@ -13,7 +13,7 @@ describe("LogEmitter", () => {
   }
 
   beforeEach(() => {
-    config = Config.config({
+    config = ConfigBuilder.config({
       // @ts-ignore
       logger: customLogger
     });

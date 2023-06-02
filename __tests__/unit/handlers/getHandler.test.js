@@ -1,10 +1,10 @@
 const { describe, beforeEach } = require('mocha');
 const { expect } = require('chai');
-const Config = require('../../../../src/watchItOut/config');
-const GetAndCallHandler = require('../../../../src/proxyHandler/handlers/getAndCallHandler');
+const ConfigBuilder = require('../../../src/builders/configBuilder');
+const GetAndCallHandler = require('../../../src/handlers/getAndCallHandler');
 
 describe("GetAndCallHandler class test", () => {
-  const config =  Config.config();
+  const config =  ConfigBuilder.config();
   const logEmitter = {
     emit(...args) {}
   };

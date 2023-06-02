@@ -1,10 +1,10 @@
 const { describe, beforeEach } = require('mocha');
 const { expect } = require('chai');
-const ProxyHandlerFacade = require('../../../src/proxyHandler/proxyHandlerFacade');
-const Config = require('../../../src/watchItOut/config');
+const ProxyHandlerFacade = require('../../../src/facades/proxyHandlerFacade');
+const ConfigBuilder = require('../../../src/builders/configBuilder');
 
 describe("ProxyHandlerFacade class test", () => {
-  const config =  Config.config();
+  const config =  ConfigBuilder.config();
   const logEmitter = {
     emit(...args) {}
   };

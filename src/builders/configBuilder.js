@@ -1,12 +1,12 @@
 'use strict';
 
-const defaultConfig = require("./.default.config");
+const defaultConfig = require("../config/.default.config");
 
-class Config {
+class ConfigBuilder {
   #content = {};
 
   static config(configObject = defaultConfig) {
-    const config = new Config();
+    const config = new ConfigBuilder();
 
     config.#content = configObject;
 
@@ -54,4 +54,4 @@ class Config {
   }
 }
 
-module.exports = Config;
+module.exports = ConfigBuilder;
