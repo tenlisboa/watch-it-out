@@ -16,8 +16,8 @@
     "url": "https://github.com/tenlisboa/watch-it-out.git"
   },
   "scripts": {
-    "test": "npx mocha --parallel --exit __tests__/*.js",
-    "test:dev": "npx mocha -w --parallel --exit __tests__/*.js",
+    "test": "npx mocha --parallel --exit --recursive __tests__",
+    "test:dev": "npx mocha -w --parallel --exit --recursive __tests__",
     "test:cov": "npx nyc npm test",
     "semantic-release": "semantic-release"
   },

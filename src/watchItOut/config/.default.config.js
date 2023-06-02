@@ -1,6 +1,6 @@
 module.exports = {
-  loggerFn: console.log,
+  logger: console,
   events: ['get', 'set', 'call'],
   context: {},
   printable: [],
-};
+}
