@@ -1,7 +1,7 @@
-const { describe, beforeEach } = require('mocha');
-const { expect } = require('chai');
-const ConfigBuilder = require('../../../src/builders/configBuilder');
-const GetAndCallHandler = require('../../../src/handlers/getAndCallHandler');
+import { describe, beforeEach } from 'mocha';
+import { expect } from 'chai';
+import ConfigBuilder from '../../../src/builders/configBuilder';
+import GetAndCallHandler from '../../../src/handlers/getAndCallHandler';
 
 describe("GetAndCallHandler class test", () => {
   const config =  ConfigBuilder.config();
