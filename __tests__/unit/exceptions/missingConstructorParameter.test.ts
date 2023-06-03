@@ -1,6 +1,6 @@
-const { expect } = require("chai");
-const { describe } = require("mocha");
-const MissingConstructorParameter = require("../../../src/exceptions/missingConstructorParameter");
+import { expect } from "chai";
+import { describe } from "mocha";
+import MissingConstructorParameter from "../../../src/exceptions/missingConstructorParameter";
 
 describe("MissingConstructorParameter", () => {
   it("should not throw an error when a parameter is missing", () => {

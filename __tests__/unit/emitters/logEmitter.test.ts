@@ -1,10 +1,10 @@
-const { expect } = require("chai");
-const { describe, beforeEach, before } = require("mocha");
-const sinon = require("sinon");
-const MissingConstructorParameter = require("../../../src/exceptions/missingConstructorParameter");
-const LogEmitter = require("../../../src/emitters/logEmitter");
-const ConfigBuilder = require("../../../src/builders/configBuilder");
-const DefaultConfig = require("../../../src/config/.default.config");
+import { expect } from "chai";
+import { describe, beforeEach, before } from "mocha";
+import sinon from "sinon";
+import MissingConstructorParameter from "../../../src/exceptions/missingConstructorParameter";
+import LogEmitter from "../../../src/emitters/logEmitter";
+import ConfigBuilder from "../../../src/builders/configBuilder";
+import DefaultConfig from "../../../src/config/.default.config";
 
 describe("LogEmitter", () => {
   let config;

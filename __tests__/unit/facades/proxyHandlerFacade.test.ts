@@ -1,7 +1,7 @@
-const { describe, beforeEach } = require('mocha');
-const { expect } = require('chai');
-const ProxyHandlerFacade = require('../../../src/facades/proxyHandlerFacade');
-const ConfigBuilder = require('../../../src/builders/configBuilder');
+import { describe, beforeEach } from 'mocha';
+import { expect } from 'chai';
+import ProxyHandlerFacade from '../../../src/facades/proxyHandlerFacade';
+import ConfigBuilder from '../../../src/builders/configBuilder';
 
 describe("ProxyHandlerFacade class test", () => {
   const config =  ConfigBuilder.config();

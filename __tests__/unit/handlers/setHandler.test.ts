@@ -1,7 +1,7 @@
-const { describe } = require('mocha');
-const { expect } = require('chai');
-const ConfigBuilder = require('../../../../src/builders/configBuilder');
-const SetHandler = require('../../../../src/handlers/setHandler');
+import { describe } from 'mocha';
+import { expect } from 'chai';
+import ConfigBuilder from '../../../src/builders/configBuilder';
+import SetHandler from '../../../src/handlers/setHandler';
 
 describe("SetHandler class test", () => {
   const config =  ConfigBuilder.config();
