@@ -16,7 +16,6 @@ const sharedConfig = {
 
 build({
   ...sharedConfig,
-  outfile: "dist/index.esm.js",
-  platform: "neutral", // for ESM
-  format: "esm",
+  platform: "node",
+  outfile: "dist/index.js",
 });

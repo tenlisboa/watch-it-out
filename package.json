@@ -35,6 +35,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {},
+  "peerDependencies": {},
   "devDependencies": {
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",

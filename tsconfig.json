@@ -8,6 +8,7 @@
     "noImplicitAny": true,
     "allowJs": true,
     "outDir": "./dist",
+    "resolveJsonModule": true,
     "skipLibCheck": true
   },
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
