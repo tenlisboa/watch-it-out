@@ -5,9 +5,11 @@ import ConfigBuilder from "../../../src/builders/configBuilder";
 
 describe("PrintableBuilder class test", () => {
   const config = ConfigBuilder.config();
+  config.reset();
 
   it("should throw an error if the config is not provided to PrintableBuilder constructor", () => {
-    expect(() => new PrintableBuilder()).to.throw(
+    // @ts-ignore
+    expect(() => PrintableBuilder.workflow()).to.throw(
       "Missing constructor parameter: config"
     );
   });
@@ -30,6 +32,7 @@ describe("PrintableBuilder class test", () => {
 
     const printableBuilder = PrintableBuilder.workflow(config);
 
+    // @ts-ignore
     expect(() => printableBuilder.setData(data)).to.throw(
       "Invalid data type. Expected object, got string"
     );

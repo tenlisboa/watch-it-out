@@ -1,9 +1,13 @@
-import { describe, it } from "mocha";
+import { after, describe, it } from "mocha";
 import { expect } from "chai";
 import ConfigBuilder from "../../../src/builders/configBuilder";
 import defautlConfig from "../../../src/config/.default.config";
 
 describe("ConfigBuilder class test", () => {
+  after(() => {
+    ConfigBuilder.config().reset();
+  });
+
   it("should be possible to create a config object", () => {
     const config = ConfigBuilder.config();
 

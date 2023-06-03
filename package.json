@@ -19,8 +19,8 @@
     "url": "https://github.com/tenlisboa/watch-it-out.git"
   },
   "scripts": {
-    "test": "npx mocha --parallel --exit --recursive __tests__",
-    "test:dev": "npx mocha -w --parallel --exit --recursive __tests__",
+    "test": "npx ts-mocha --recursive '__tests__/**/*.test.ts'",
+    "test:dev": "npm test -- -w --watch-files '**/*.ts'",
     "test:cov": "npx nyc npm test",
     "lint": "eslint --ext .js,.ts src",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
@@ -32,6 +32,7 @@
   "devDependencies": {
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
+    "@types/node": "^20.2.5",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.8",
     "chai": "^4.3.7",
@@ -46,6 +47,7 @@
     "prettier": "^2.8.8",
     "semantic-release": "^21.0.2",
     "sinon": "^15.1.0",
+    "ts-mocha": "^10.0.0",
     "typescript": "^5.1.3"
   }
 }

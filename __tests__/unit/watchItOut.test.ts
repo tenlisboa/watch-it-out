@@ -8,7 +8,13 @@ describe("WatchItOut class", () => {
     log(...args) {},
   };
 
-  WatchItOut.config.setLogger(customLogger);
+  beforeEach(() => {
+    WatchItOut.config.setLogger(customLogger);
+  });
+
+  afterEach(() => {
+    WatchItOut.config.reset();
+  });
 
   it("should be possible to create a proxy of an object", () => {
     const obj = {
@@ -20,6 +26,7 @@ describe("WatchItOut class", () => {
     expect(objProxy).to.be.an("object");
     expect(objProxy).to.have.property("someKey");
     expect(objProxy.someKey).to.equal("someValue");
+    // @ts-ignore
     expect(objProxy.__proto__).to.be.deep.equal(obj.__proto__);
   });
 
@@ -33,6 +40,7 @@ describe("WatchItOut class", () => {
     expect(classProxy).to.be.an("object");
     expect(classProxy).to.have.property("someClassKey");
     expect(classProxy.someClassKey).to.equal("someClassValue");
+    // @ts-ignore
     expect(classProxy.__proto__).to.be.deep.equal(TestClass.prototype);
   });
 
@@ -80,6 +88,9 @@ describe("WatchItOut class", () => {
   it("should be initialized with a default config if neither a config object nor a config file is provided", () => {
     const configContent = WatchItOut.config.build();
 
-    expect(configContent).to.be.deep.equal(defautlConfig);
+    expect(configContent).to.be.deep.equal({
+      ...defautlConfig,
+      logger: customLogger,
+    });
   });
 });

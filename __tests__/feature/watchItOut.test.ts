@@ -11,7 +11,7 @@ describe("Main purpose of WatchItOut", () => {
       this.a = 123;
     }
 
-    foo() {}
+    foo(...args) {}
   }
   const customLogger = {
     log(...args) {},
