@@ -131,4 +131,74 @@ describe("LogEmitter", () => {
       })
     ).to.be.true;
   });
+
+  it("should log the value of an accessed property when a get event is emitted", () => {
+    const logEmitter = new LogEmitter(config);
+    const loggerSpy = sinon.spy(logEmitter, "loggerFn");
+    const emitterParams = {
+      target: { foo: "bar" },
+      property: "foo",
+      receiver: { foo: "bar" },
+    };
+
+    logEmitter.emit("get", emitterParams);
+
+    expect(loggerSpy.calledOnce).to.be.true;
+    expect(
+      loggerSpy.calledWithMatch({
+        action: "accessing property",
+        property: "foo",
+        value: "bar",
+        on: emitterParams.target,
+      })
+    ).to.be.true;
+  });
+
+  it("should log the value returned by a function when a call event is emitted", () => {
+    const logEmitter = new LogEmitter(config);
+    const loggerSpy = sinon.spy(logEmitter, "loggerFn");
+    const emitterParams = {
+      target: { foo(...args) {} },
+      property: "foo",
+      argumentsList: ["arg1", "arg2"],
+      returningValue: "returnValue",
+    };
+
+    logEmitter.emit("call", emitterParams);
+
+    expect(loggerSpy.calledOnce).to.be.true;
+    expect(
+      loggerSpy.calledWithMatch({
+        action: "calling a method",
+        method: "foo",
+        on: emitterParams.target,
+        with: ["arg1", "arg2"],
+        returns: "returnValue",
+      })
+    ).to.be.true;
+  });
+
+  it("should log the value returned by a function when a apply event is emitted", () => {
+    const logEmitter = new LogEmitter(config);
+    const loggerSpy = sinon.spy(logEmitter, "loggerFn");
+    function foo(...args) {}
+    const emitterParams = {
+      target: foo,
+      thisArg: {},
+      argumentsList: ["arg1", "arg2"],
+      returningValue: "returnValue",
+    };
+
+    logEmitter.emit("apply", emitterParams);
+
+    expect(loggerSpy.calledOnce).to.be.true;
+    expect(
+      loggerSpy.calledWithMatch({
+        action: "calling a function",
+        name: "foo",
+        with: ["arg1", "arg2"],
+        returns: "returnValue",
+      })
+    ).to.be.true;
+  });
 });

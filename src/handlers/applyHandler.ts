@@ -22,8 +22,16 @@ class ApplyHandler {
   }
 
   private handle(target: any, thisArg: any, argumentsList: any[]) {
-    this.logEmitter.emit("apply", { target, thisArg, argumentsList });
-    return target.apply(thisArg, argumentsList);
+    const returningValue = target.apply(thisArg, argumentsList);
+
+    this.logEmitter.emit("apply", {
+      target,
+      thisArg,
+      argumentsList,
+      returningValue,
+    });
+
+    return returningValue;
   }
 }
 

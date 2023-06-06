@@ -33,8 +33,16 @@ class GetAndCallHandler {
 
   private handleMethodCall(target: any, property: string, receiver: any) {
     return (...args: any[]) => {
-      this.logEmitter.emit("call", { target, property, argumentsList: args });
-      return target[property].apply(receiver, args);
+      const returningValue = target[property].apply(receiver, args);
+
+      this.logEmitter.emit("call", {
+        target,
+        property,
+        argumentsList: args,
+        returningValue,
+      });
+
+      return returningValue;
     };
   }
 }

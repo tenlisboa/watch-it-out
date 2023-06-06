@@ -34,6 +34,7 @@ class LogEmitter {
       const data = this.printableBuilder.setData({
         action: "accessing property",
         property,
+        value: target[property],
         on: target,
       });
 
@@ -50,20 +51,22 @@ class LogEmitter {
 
       this.loggerFn(data.build());
     });
-    this.on("call", ({ target, property, argumentsList }) => {
+    this.on("call", ({ target, property, argumentsList, returningValue }) => {
       const data = this.printableBuilder.setData({
         action: "calling a method",
         method: property,
         on: target,
+        returns: returningValue,
         with: argumentsList,
       });
 
       this.loggerFn(data.build());
     });
-    this.on("apply", ({ target, thisArg, argumentsList }) => {
+    this.on("apply", ({ target, thisArg, argumentsList, returningValue }) => {
       const data = this.printableBuilder.setData({
         action: "calling a function",
         name: target.name,
+        returns: returningValue,
         with: argumentsList,
       });
 
