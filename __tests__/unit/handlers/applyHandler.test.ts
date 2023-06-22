@@ -1,30 +1,33 @@
-import { describe } from 'mocha';
-import { expect } from 'chai';
-import ConfigBuilder from '../../../src/builders/configBuilder';
-import ApplyHandler from '../../../src/handlers/applyHandler';
+import { describe } from "mocha";
+import { expect } from "chai";
+import ConfigBuilder from "../../../src/builders/configBuilder";
+import ApplyHandler from "../../../src/handlers/applyHandler";
+import LogEmitter from "../../../src/emitters/logEmitter";
 
 describe("ApplyHandler class test", () => {
-  const config =  ConfigBuilder.config();
+  const config = ConfigBuilder.config();
   const logEmitter = {
-    emit(...args) {}
-  };
-  
-  it('should throw an error if the config is not provided to ApplyHandler setup method', () => {
-    expect(() => ApplyHandler.setup())
-      .to.throw('Missing constructor parameter: config');
+    emit(...args) {},
+  } as LogEmitter;
+
+  it("should throw an error if the config is not provided to ApplyHandler setup method", () => {
+    expect(() => ApplyHandler.setup()).to.throw(
+      "Missing constructor parameter: config"
+    );
   });
 
-  it('should throw an error if the logEmitter is not provided to ApplyHandler setup method', () => {
-    expect(() => ApplyHandler.setup(config))
-      .to.throw('Missing constructor parameter: logEmitter');
+  it("should throw an error if the logEmitter is not provided to ApplyHandler setup method", () => {
+    expect(() => ApplyHandler.setup(config)).to.throw(
+      "Missing constructor parameter: logEmitter"
+    );
   });
 
-  it('should return the handler function from the handler getter', () => {
+  it("should return the handler function from the handler getter", () => {
     const handler = ApplyHandler.setup(config, logEmitter).handler;
-    expect(handler).to.be.a('function');
+    expect(handler).to.be.a("function");
   });
 
-  it('should return the result of the function execution', () => {
+  it("should return the result of the function execution", () => {
     function execute() {
       return 123;
     }
@@ -34,7 +37,7 @@ describe("ApplyHandler class test", () => {
     expect(result).to.be.equal(123);
   });
 
-  it('should return the result of the function execution with arguments', () => {
+  it("should return the result of the function execution with arguments", () => {
     function execute(a, b) {
       return a + b;
     }
