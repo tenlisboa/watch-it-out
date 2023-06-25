@@ -1,28 +1,16 @@
-export class GetHandler {
+import { HandlerBase } from "./base/handlerBase";
+
+export class GetHandler extends HandlerBase {
   constructor({ transformers }) {
-    this.transformers = transformers;
+    super({ transformers });
   }
 
   handle({ target, property }) {
-    this.#sendToTransformers({
+    this._sendToTransformers({
       action: "acessing property",
       property,
       value: target[property],
-      on: this.#getTargetName(target),
+      on: this._getTargetName(target),
     });
-  }
-
-  #sendToTransformers(data) {
-    this.transformers.forEach(transformer => {
-      transformer(data);
-    });
-  }
-
-  #getTargetName(target) {
-    const anonymousNames = ["Object", "Function", "Array"];
-
-    if (anonymousNames.includes(target.constructor.name)) return "anonymous";
-
-    return target.constructor.name;
   }
 }
