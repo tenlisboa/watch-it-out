@@ -1,12 +1,12 @@
 import { HandlerBase } from "./base/handlerBase";
 
 export class SetHandler extends HandlerBase {
-  constructor({ transformers }) {
-    super({ transformers });
+  constructor({ subscriber }) {
+    super({ subscriber });
   }
 
   handle({ target, property, value }) {
-    this._sendToTransformers({
+    this._subscriber.notify({
       action: "change property",
       property,
       from: target[property],

@@ -8,15 +8,21 @@ import {
   afterAll,
 } from "@jest/globals";
 import { SetHandler } from "../../../src/proxyHandlers/setHandler.js";
+import { SetSubscriber } from "../../../src/subscribers/setSuscriber.js";
 
 describe("/proxyHandlers/setHandler.js", () => {
+  const setSubscriber = new SetSubscriber();
+  const transformer = jest.fn();
+  setSubscriber.subscribe(transformer);
+  let subjectSpy;
+
   beforeEach(() => {
     jest.restoreAllMocks();
     jest.clearAllMocks();
+    subjectSpy = jest.spyOn(setSubscriber, "notify");
   });
 
   test("pass the right values when target is an anonymous object", () => {
-    const transformer = jest.fn();
     const target = { test: "Some Name" };
     const data = {
       target,
@@ -32,14 +38,13 @@ describe("/proxyHandlers/setHandler.js", () => {
       on: "anonymous",
     };
 
-    const setHandler = new SetHandler({ transformers: [transformer] });
+    const setHandler = new SetHandler({ subscriber: setSubscriber });
     setHandler.handle(data);
 
-    expect(transformer).toHaveBeenCalledWith(expectedArgsPassingToTransformer);
+    expect(subjectSpy).toHaveBeenCalledWith(expectedArgsPassingToTransformer);
   });
 
   test("pass the right values when target is a named class", () => {
-    const transformer = jest.fn();
     class Target {
       test = "Some Name";
     }
@@ -59,9 +64,9 @@ describe("/proxyHandlers/setHandler.js", () => {
       on: "Target",
     };
 
-    const setHandler = new SetHandler({ transformers: [transformer] });
+    const setHandler = new SetHandler({ subscriber: setSubscriber });
     setHandler.handle(data);
 
-    expect(transformer).toHaveBeenCalledWith(expectedArgsPassingToTransformer);
+    expect(subjectSpy).toHaveBeenCalledWith(expectedArgsPassingToTransformer);
   });
 });

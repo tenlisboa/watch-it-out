@@ -8,11 +8,18 @@ import {
   afterAll,
 } from "@jest/globals";
 import { GetHandler } from "../../../src/proxyHandlers/getHandler";
+import { GetSubscriber } from "../../../src/subscribers/getSuscriber";
 
 describe("/proxyHandlers/getHandler.js", () => {
+  const getSubscriber = new GetSubscriber();
+  const transformer = jest.fn();
+  getSubscriber.subscribe(transformer);
+  let subjectSpy;
+
   beforeEach(() => {
     jest.restoreAllMocks();
     jest.clearAllMocks();
+    subjectSpy = jest.spyOn(getSubscriber, "notify");
   });
 
   test("pass the right values when target is an anonymous object", () => {
@@ -30,10 +37,10 @@ describe("/proxyHandlers/getHandler.js", () => {
       on: "anonymous",
     };
 
-    const getHandler = new GetHandler({ transformers: [transformer] });
+    const getHandler = new GetHandler({ subscriber: getSubscriber });
     getHandler.handle(data);
 
-    expect(transformer).toHaveBeenCalledWith(expectedArgsPassingToTransformer);
+    expect(subjectSpy).toHaveBeenCalledWith(expectedArgsPassingToTransformer);
   });
 
   test("pass the right values when target is a named class", () => {
@@ -55,9 +62,9 @@ describe("/proxyHandlers/getHandler.js", () => {
       on: "Target",
     };
 
-    const getHandler = new GetHandler({ transformers: [transformer] });
+    const getHandler = new GetHandler({ subscriber: getSubscriber });
     getHandler.handle(data);
 
-    expect(transformer).toHaveBeenCalledWith(expectedArgsPassingToTransformer);
+    expect(subjectSpy).toHaveBeenCalledWith(expectedArgsPassingToTransformer);
   });
 });

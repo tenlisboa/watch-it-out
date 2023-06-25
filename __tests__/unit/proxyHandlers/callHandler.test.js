@@ -8,21 +8,27 @@ import {
   afterAll,
 } from "@jest/globals";
 import { CallHandler } from "../../../src/proxyHandlers/callHandler.js";
+import { CallSubscriber } from "../../../src/subscribers/callSuscriber.js";
 
 describe("/proxyHandlers/callHandler.js", () => {
+  const callSubscriber = new CallSubscriber();
+  const transformer = jest.fn();
+  callSubscriber.subscribe(transformer);
+  let subjectSpy;
+
   beforeEach(() => {
     jest.restoreAllMocks();
     jest.clearAllMocks();
+    subjectSpy = jest.spyOn(callSubscriber, "notify");
   });
 
   test("pass the right values when target is an anonymous object", () => {
-    const transformer = jest.fn();
     const target = { test: () => {} };
     const data = {
       target,
       property: "test",
       args: ["Some Name", "Another Name"],
-      receiver: { ...target },
+      thisArg: { ...target },
     };
     const expectedArgsPassingToTransformer = {
       action: "calling method",
@@ -32,14 +38,13 @@ describe("/proxyHandlers/callHandler.js", () => {
       on: "anonymous",
     };
 
-    const callHandler = new CallHandler({ transformers: [transformer] });
+    const callHandler = new CallHandler({ subscriber: callSubscriber });
     callHandler.handle(data);
 
-    expect(transformer).toHaveBeenCalledWith(expectedArgsPassingToTransformer);
+    expect(subjectSpy).toHaveBeenCalledWith(expectedArgsPassingToTransformer);
   });
 
   test("pass the right values when target is a named class", () => {
-    const transformer = jest.fn();
     class Target {
       test() {}
     }
@@ -49,7 +54,7 @@ describe("/proxyHandlers/callHandler.js", () => {
       target,
       property: "test",
       args: ["Some Name", "Another Name"],
-      receiver: { ...target },
+      thisArg: { ...target },
     };
     const expectedArgsPassingToTransformer = {
       action: "calling method",
@@ -59,9 +64,9 @@ describe("/proxyHandlers/callHandler.js", () => {
       on: "Target",
     };
 
-    const callHandler = new CallHandler({ transformers: [transformer] });
+    const callHandler = new CallHandler({ subscriber: callSubscriber });
     callHandler.handle(data);
 
-    expect(transformer).toHaveBeenCalledWith(expectedArgsPassingToTransformer);
+    expect(subjectSpy).toHaveBeenCalledWith(expectedArgsPassingToTransformer);
   });
 });

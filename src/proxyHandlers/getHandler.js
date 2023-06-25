@@ -1,12 +1,12 @@
 import { HandlerBase } from "./base/handlerBase";
 
 export class GetHandler extends HandlerBase {
-  constructor({ transformers }) {
-    super({ transformers });
+  constructor({ subscriber }) {
+    super({ subscriber });
   }
 
   handle({ target, property }) {
-    this._sendToTransformers({
+    this._subscriber.notify({
       action: "acessing property",
       property,
       value: target[property],

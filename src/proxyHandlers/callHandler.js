@@ -1,14 +1,19 @@
 import { HandlerBase } from "./base/handlerBase";
 
 export class CallHandler extends HandlerBase {
-  constructor({ transformers }) {
-    super({ transformers });
+  constructor({ subscriber }) {
+    super({ subscriber });
   }
 
-  handle({ target, property, args }) {
-    const returningValue = target[property].apply(target, args);
+  handle({ target, property, thisArg, args }) {
+    const returningValue = this.#getReturningValueBasedOnTargetType({
+      target,
+      property,
+      thisArg,
+      args,
+    });
 
-    this._sendToTransformers({
+    this._subscriber.notify({
       action: "calling method",
       property,
       args,
@@ -17,5 +22,13 @@ export class CallHandler extends HandlerBase {
     });
 
     return returningValue;
+  }
+
+  #getReturningValueBasedOnTargetType({ target, property, thisArg, args }) {
+    if (property && typeof target[property] === "function") {
+      return target[property].apply(thisArg, args);
+    }
+
+    return target.apply(thisArg, args);
   }
 }
