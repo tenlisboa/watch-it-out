@@ -13,5 +13,9 @@ export class SetHandler extends HandlerBase {
       to: value,
       on: this._getTargetName(target),
     });
+
+    target[property] = value;
+
+    return true;
   }
 }

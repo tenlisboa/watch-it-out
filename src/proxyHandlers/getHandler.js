@@ -12,5 +12,7 @@ export class GetHandler extends HandlerBase {
       value: target[property],
       on: this._getTargetName(target),
     });
+
+    return target[property];
   }
 }
