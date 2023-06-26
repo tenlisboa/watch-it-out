@@ -94,7 +94,7 @@ describe("#WatchItOut", () => {
     };
 
     const expectedLogParams =
-      "[2023-06-24T15:38:27.145Z]\naction: calling method, property: foo, args: , returningValue: bar, on: anonymous";
+      "[2023-06-24T15:38:27.145Z]\naction: calling method, property: foo, args: [], returningValue: bar, on: anonymous";
 
     const targetWatchable = Watch.new(target);
 
@@ -110,7 +110,7 @@ describe("#WatchItOut", () => {
     }
 
     const expectedLogParams =
-      "[2023-06-24T15:38:27.145Z]\naction: calling method, property: null, args: , returningValue: bar, on: target";
+      "[2023-06-24T15:38:27.145Z]\naction: calling method, property: null, args: [], returningValue: bar, on: target";
 
     const targetWatchable = Watch.new(target);
 

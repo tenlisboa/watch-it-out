@@ -1,10 +1,10 @@
-import { CallHandler } from "../proxyHandlers/callHandler";
-import { GetHandler } from "../proxyHandlers/getHandler";
-import { SetHandler } from "../proxyHandlers/setHandler";
-import { CallSubscriber } from "../subscribers/callSuscriber";
-import { GetSubscriber } from "../subscribers/getSuscriber";
-import { SetSubscriber } from "../subscribers/setSuscriber";
-import { logToConsole } from "../transformers/stdin";
+import { CallHandler } from "../proxyHandlers/callHandler.js";
+import { GetHandler } from "../proxyHandlers/getHandler.js";
+import { SetHandler } from "../proxyHandlers/setHandler.js";
+import { CallSubscriber } from "../subscribers/callSuscriber.js";
+import { GetSubscriber } from "../subscribers/getSuscriber.js";
+import { SetSubscriber } from "../subscribers/setSuscriber.js";
+import { logToConsole } from "../transformers/stdin.js";
 
 export function makeHandlersFactory() {
   const getSubject = new GetSubscriber();

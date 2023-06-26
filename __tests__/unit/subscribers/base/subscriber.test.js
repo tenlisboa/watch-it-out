@@ -1,5 +1,5 @@
 import { expect, describe, test } from "@jest/globals";
-import { Subscriber } from "../../../../src/subscribers/base/subscriber";
+import { Subscriber } from "../../../../src/subscribers/base/subscriber.js";
 
 describe("/subscribers/base/subscriber.js", () => {
   test("implement all methods and props correctly", () => {

@@ -1,4 +1,4 @@
-import { HandlerBase } from "./base/handlerBase";
+import { HandlerBase } from "./base/handlerBase.js";
 
 export class GetHandler extends HandlerBase {
   constructor({ subscriber }) {
