@@ -1,3 +1,4 @@
+import { Config } from "./config/index.js";
 import { makeHandlersFactory } from "./factories/handlersFactory.js";
 
 export default class Watch {
@@ -9,6 +10,7 @@ export default class Watch {
 
   static new(target, options) {
     const instance = new Watch();
+    Config.init(options);
 
     return new Proxy(target, {
       get: (target, property) => {

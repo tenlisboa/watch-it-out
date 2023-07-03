@@ -7,10 +7,6 @@ export class Subscriber {
     this.subscribers.push(subscriber);
   }
 
-  unsubscribe(subscriber) {
-    this.subscribers = this.subscribers.filter(s => s !== subscriber);
-  }
-
   notify(data) {
     this.subscribers.forEach(subscriber => subscriber(data));
   }

@@ -7,7 +7,6 @@ describe("/subscribers/base/subscriber.js", () => {
 
     expect(subscriber).toHaveProperty("subscribers");
     expect(subscriber).toHaveProperty("subscribe");
-    expect(subscriber).toHaveProperty("unsubscribe");
     expect(subscriber).toHaveProperty("notify");
   });
 });

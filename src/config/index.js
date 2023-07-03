@@ -2,6 +2,7 @@ const defaultConfig = {
   events: ["get", "set", "methodCall", "functionCall"],
   printable: [],
   context: {},
+  stringify: true
 };
 
 export class Config {
@@ -17,18 +18,13 @@ export class Config {
   }
 
   static get instance() {
+    if (!this.#instance) {
+      Config.init();
+    }
     return this.#instance;
   }
 
-  get events() {
-    return this._config.events;
-  }
-
-  get printable() {
-    return this._config.printable;
-  }
-
-  get context() {
-    return this._config.context;
+  get stringify() {
+    return this._config.stringify;
   }
 }

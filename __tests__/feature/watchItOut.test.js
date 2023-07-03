@@ -119,4 +119,28 @@ describe("#WatchItOut", () => {
     expect(logSpy).toHaveBeenCalledTimes(1);
     expect(logSpy).toHaveBeenCalledWith(expectedLogParams);
   });
+
+  test("should log a not stringified message", () => {
+    function target() {
+      return "bar";
+    }
+
+    const expectedLogParams = {
+      when: '2023-06-24T15:38:27.145Z',
+      action: 'calling method',
+      property: null,
+      args: [],
+      returningValue: 'bar',
+      on: 'target'
+    }
+
+    const targetWatchable = Watch.new(target, {
+      stringify: false
+    });
+
+    targetWatchable();
+
+    expect(logSpy).toHaveBeenCalledTimes(1);
+    expect(logSpy).toHaveBeenCalledWith(expectedLogParams);
+  });
 });
